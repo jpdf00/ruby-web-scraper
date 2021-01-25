@@ -10,18 +10,18 @@ loop do
   term = ''
   inclusion = ''
   repeat = ''
-  search.chage_term
+  Validation.chage_term
   while flag == true do
     puts
     loop do
-      print "Chose a Card #{search.current_term}: "
+      print "Chose a Card #{Validation.current_term}: "
       term = gets.chomp.downcase.capitalize
-      break if search.term_validation?(term)
+      break if Validation.term_validation?(term)
       puts
-      puts "Not a valid Card #{search.current_term}. "
-      puts Validation.type_list if search.current_term == 'Type'
-      puts Validation.type_list if search.current_term == 'Supertype'
-      print Validation.subtype_list if search.current_term == 'Subtype'
+      puts "Not a valid Card #{Validation.current_term}. "
+      puts Validation.type_list if Validation.current_term == 'Type'
+      puts Validation.type_list if Validation.current_term == 'Supertype'
+      print Validation.subtype_list if Validation.current_term == 'Subtype'
       puts
     end
     loop do
@@ -50,7 +50,7 @@ loop do
     flag = false if repeat == 'N'
     search.build_link(term, inclusion)
   end
-  break if search.current_term == "Subtype"
+  break if Validation.current_term == "Subtype"
 end
 
 puts
