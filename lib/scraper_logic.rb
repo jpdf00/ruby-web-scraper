@@ -47,11 +47,10 @@ class Search
     have = inclusion == 'E' ? 'does not have' : 'have'
     if current_term == 'Type'
       @type_link += "+#{symbol}[\"#{term}\"]"
-      @chosen_terms += "#{have} the #{current_term} \"#{term}\", "
     else
       @subtype_link += "+#{symbol}[\"#{term}\"]"
-      @chosen_terms += "#{have} the #{current_term} \"#{term}\", "
     end
+    @chosen_terms += "#{have} the #{current_term} \"#{term}\", "
     @chosen_terms
   end
 

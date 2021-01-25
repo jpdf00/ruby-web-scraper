@@ -2,14 +2,14 @@ require_relative '..\lib\scraper_logic'
 
 validation = Validation.new
 search = Search.new
-INVALID = 'ausydgfku'
-TYPE_1 = 'Creature'
-TYPE_2 = 'Legendary'
-SUBTYPE = 'Dragon'
-TERM_1 = 'Type'
-TERM_2 = 'Subtype'
-INCLUSION = 'I'
-EXCLUSION = 'E'
+INVALID = 'ausydgfku'.freeze
+TYPE_1 = 'Creature'.freeze
+TYPE_2 = 'Legendary'.freeze
+SUBTYPE = 'Dragon'.freeze
+TERM_1 = 'Type'.freeze
+TERM_2 = 'Subtype'.freeze
+INCLUSION = 'I'.freeze
+EXCLUSION = 'E'.freeze
 
 describe Validation do
   describe '#type_list' do
@@ -90,22 +90,31 @@ end
 
 describe Search do
   describe '#build_link' do
-    it "Returns the correct search terms for Types" do
-      expect(search.build_link(TYPE_1, INCLUSION, TERM_1)).to eql("The current search returns all cards that have the #{TERM_1} \"#{TYPE_1}\", ")
+    it 'Returns the correct search terms for Types' do
+      expect(search.build_link(TYPE_1, INCLUSION,
+                               TERM_1)).to eql("The current search returns all cards that
+                                                have the #{TERM_1} \"#{TYPE_1}\", ")
     end
-    it "Does not returns the incorrect search terms" do
-      expect(search.build_link(TYPE_2, EXCLUSION, TERM_1)).not_to eql("The current search returns all cards that have the #{TERM_1} \"#{TYPE_1}\", have the #{TERM_1} \"#{TYPE_2}\", ")
+    it 'Does not returns the incorrect search terms' do
+      expect(search.build_link(TYPE_2, EXCLUSION,
+                               TERM_1)).not_to eql("The current search returns all cards that
+                                                    have the #{TERM_1} \"#{TYPE_1}\",
+                                                    have the #{TERM_1} \"#{TYPE_2}\", ")
     end
-    it "Returns the correct search terms for Subtypes" do
-      expect(search.build_link(SUBTYPE, INCLUSION, TERM_2)).to eql("The current search returns all cards that have the #{TERM_1} \"#{TYPE_1}\", does not have the #{TERM_1} \"#{TYPE_2}\", have the #{TERM_2} \"#{SUBTYPE}\", ")
+    it 'Returns the correct search terms for Subtypes' do
+      expect(search.build_link(SUBTYPE, INCLUSION,
+                               TERM_2)).to eql("The current search returns all cards that
+                                                have the #{TERM_1} \"#{TYPE_1}\",
+                                                does not have the #{TERM_1} \"#{TYPE_2}\",
+                                                have the #{TERM_2} \"#{SUBTYPE}\", ")
     end
   end
 
   describe '#web_scrape' do
-    it "Returns the correct search results" do
+    it 'Returns the correct search results' do
       expect(search.web_scrape.length).to eql(151)
     end
-    it "Does not returns the incorrect search results" do
+    it 'Does not returns the incorrect search results' do
       expect(search.web_scrape.length).not_to eql(200)
     end
   end
