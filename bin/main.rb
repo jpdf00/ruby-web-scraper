@@ -10,7 +10,7 @@ validation = Validation.new
   term = ''
   inclusion = ''
   repeat = ''
-  validation.chage_term
+  validation.change_term
   loop do
     puts
     loop do
@@ -37,7 +37,8 @@ validation = Validation.new
 
       puts 'Invalid Input. Chose either Y or N'
     end
-    search.build_link(term, inclusion, validation.current_term)
+    puts
+    puts search.build_link(term, inclusion, validation.current_term)
     break if repeat == 'N'
   end
 end

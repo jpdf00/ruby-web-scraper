@@ -9,8 +9,7 @@ class Validation
     @term = %w[Type Subtype]
     @current_term = ''
     @type_array = []
-    @subtype_array = []
-    @validation_page = Nokogiri::HTML(URI.open('https://gatherer.wizards.com/Pages/Advanced.aspx'))
+    @validation_page = Nokogiri::HTML(URI.parse('https://gatherer.wizards.com/Pages/Advanced.aspx').open)
     @inclusion_validation = %w[I E]
     @repeat_validation = %w[Y N]
   end
@@ -22,14 +21,14 @@ class Validation
     @type_array
   end
 
-  def chage_term
+  def change_term
     @current_term = @term.shift
     @term.push(@current_term)
   end
 end
 
 class Search
-  attr_reader :link, :name_array, :validation
+  attr_reader :name_array
 
   def initialize
     @page = 0
@@ -37,15 +36,23 @@ class Search
     @options_link = '&output=compact&action=advanced'
     @type_link = '&type=+!["Token"]'
     @subtype_link = '&subtype='
+    @chosen_terms = 'The current search returns all cards that '
     @name_array = []
     @link_array = []
     @page_array = []
   end
 
   def build_link(term, inclusion, current_term)
-    inclusion = inclusion == 'E' ? '!' : ''
-    @type_link += "+#{inclusion}[\"#{term}\"]" if current_term == 'Type'
-    @subtype_link += "+#{inclusion}[\"#{term}\"]" if current_term == 'Subtype'
+    symbol = inclusion == 'E' ? '!' : ''
+    have = inclusion == 'E' ? 'does not have' : 'have'
+    if current_term == 'Type'
+      @type_link += "+#{symbol}[\"#{term}\"]"
+      @chosen_terms += "#{have} the #{current_term} \"#{term}\", "
+    else
+      @subtype_link += "+#{symbol}[\"#{term}\"]"
+      @chosen_terms += "#{have} the #{current_term} \"#{term}\", "
+    end
+    @chosen_terms
   end
 
   def web_scrape
