@@ -51,7 +51,7 @@ class Search
   def web_scrape
     loop do
       full_link = "#{@base_link}page=#{@page}#{@options_link}#{@type_link}#{@subtype_link}"
-      retrieved_page = Nokogiri::HTML(URI.open(full_link))
+      retrieved_page = Nokogiri::HTML(URI.parse(full_link).open)
 
       retrieved_page.xpath('//td//a').each do |content|
         @name_array << content.content unless content.content == ''
