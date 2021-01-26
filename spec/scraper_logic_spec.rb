@@ -1,6 +1,4 @@
 #! /usr/bin/env ruby
-require 'nokogiri'
-require 'open-uri'
 require_relative '../lib/scraper_logic'
 
 validation = Validation.new
