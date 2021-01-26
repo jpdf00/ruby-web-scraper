@@ -10,6 +10,7 @@ TERM_1 = 'Type'.freeze
 TERM_2 = 'Subtype'.freeze
 INCLUSION = 'I'.freeze
 EXCLUSION = 'E'.freeze
+short_link = 'The current search returns all cards that '
 
 describe Validation do
   describe '#type_list' do
@@ -90,23 +91,17 @@ end
 
 describe Search do
   describe '#build_link' do
-    it 'Returns the correct search terms for Types' do
-      expect(search.build_link(TYPE_1, INCLUSION,
-                               TERM_1)).to eql("The current search returns all cards that
-                                                have the #{TERM_1} \"#{TYPE_1}\", ")
+    it 'Returns the correct search terms for Types inclusive' do
+      short_link += "have the #{TERM_1} \"#{TYPE_1}\", "
+      expect(search.build_link(TYPE_1, INCLUSION, TERM_1)).to eql(short_link)
     end
-    it 'Does not returns the incorrect search terms' do
-      expect(search.build_link(TYPE_2, EXCLUSION,
-                               TERM_1)).not_to eql("The current search returns all cards that
-                                                    have the #{TERM_1} \"#{TYPE_1}\",
-                                                    have the #{TERM_1} \"#{TYPE_2}\", ")
+    it 'Returns the correct search terms for Types exclusive' do
+      short_link += "does not have the #{TERM_1} \"#{TYPE_2}\", "
+      expect(search.build_link(TYPE_2, EXCLUSION, TERM_1)).to eql(short_link)
     end
     it 'Returns the correct search terms for Subtypes' do
-      expect(search.build_link(SUBTYPE, INCLUSION,
-                               TERM_2)).to eql("The current search returns all cards that
-                                                have the #{TERM_1} \"#{TYPE_1}\",
-                                                does not have the #{TERM_1} \"#{TYPE_2}\",
-                                                have the #{TERM_2} \"#{SUBTYPE}\", ")
+      short_link += "have the #{TERM_2} \"#{SUBTYPE}\", "
+      expect(search.build_link(SUBTYPE, INCLUSION, TERM_2)).to eql(short_link)
     end
   end
 
