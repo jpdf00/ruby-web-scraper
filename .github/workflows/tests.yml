@@ -15,5 +15,7 @@ jobs:
         run: |
           [ -f Gemfile ] && bundle
           gem install --no-document rspec:'~>3.0'
+          gem install bundler:2.1.4
+          gem install nokogiri
       - name: RSpec Report
         run: rspec --force-color --format documentation
