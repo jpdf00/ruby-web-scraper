@@ -44,14 +44,19 @@ validation = Validation.new
 end
 
 puts
-puts "Your search returned #{search.web_scrape.length} results."
-puts
-show_results = 'N'
-loop do
-  print 'Want to view a list with the results? (Y/N): '
-  show_results = gets.chomp.upcase
-  break if validation.repeat_validation.include? show_results
+begin
+  puts "Your search returned #{search.web_scrape.length} results."
+  puts
+rescue Errno::ETIMEDOUT
+  puts 'Site is down. Try again in a couple minutes.'
+else
+  show_results = 'N'
+  loop do
+    print 'Want to view a list with the results? (Y/N): '
+    show_results = gets.chomp.upcase
+    break if validation.repeat_validation.include? show_results
 
-  puts 'Invalid Input. Chose either Y or N'
+    puts 'Invalid Input. Chose either Y or N'
+  end
+  puts search.name_array if show_results == 'Y'
 end
-puts search.name_array if show_results == 'Y'
