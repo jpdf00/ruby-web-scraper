@@ -1,5 +1,5 @@
 #! /usr/bin/env ruby
-require_relative '..\lib\scraper_logic'
+require_relative '../lib/scraper_logic'
 
 validation = Validation.new
 search = Search.new
