@@ -1,5 +1,8 @@
 #! /usr/bin/env ruby
-require_relative '../lib/scraper_logic'
+require_relative '../lib/validation'
+require_relative '../lib/search'
+require_relative '../lib/result'
+require_relative '../lib/input'
 
 validation = Validation.new
 search = Search.new
@@ -27,15 +30,15 @@ describe Validation do
     types.length.times do
       current_type = types[count]
       it "Returns true on #{current_type}" do
-        expect(validation.type_list.include?(current_type)).to eql(true)
+        expect(validation.type_array.include?(current_type)).to eql(true)
       end
       count += 1
     end
     it 'Returns false on empty string' do
-      expect(validation.type_list.include?('')).to eql(false)
+      expect(validation.type_array.include?('')).to eql(false)
     end
     it 'Returns false on invalid input' do
-      expect(validation.type_list.include?(INVALID)).to eql(false)
+      expect(validation.type_array.include?(INVALID)).to eql(false)
     end
   end
 

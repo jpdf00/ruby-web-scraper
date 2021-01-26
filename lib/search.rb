@@ -2,31 +2,6 @@
 require 'nokogiri'
 require 'open-uri'
 
-class Validation
-  attr_reader :current_term, :inclusion_validation, :repeat_validation
-
-  def initialize
-    @term = ['Type or Supertype', 'Subtype']
-    @current_term = ''
-    @type_array = []
-    @validation_page = Nokogiri::HTML(URI.parse('https://gatherer.wizards.com/Pages/Advanced.aspx').open)
-    @inclusion_validation = %w[I E]
-    @repeat_validation = %w[Y N]
-  end
-
-  def type_list
-    @validation_page.css('#autoCompleteSourceBoxtypeAddText3_InnerTextBoxcontainer a').each do |link|
-      @type_array << link.content
-    end
-    @type_array
-  end
-
-  def change_term
-    @current_term = @term.shift
-    @term.push(@current_term)
-  end
-end
-
 class Search
   attr_reader :name_array
 
