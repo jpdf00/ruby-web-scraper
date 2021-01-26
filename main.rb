@@ -2,4 +2,4 @@
 
 # wrapper to make this program work on repl.it
 
-require_relative './bin/main.rb'
+require_relative './bin/main'
