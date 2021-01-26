@@ -6,7 +6,7 @@ class Validation
   attr_reader :current_term, :inclusion_validation, :repeat_validation
 
   def initialize
-    @term = %w[Type Subtype]
+    @term = ['Type or Supertype', 'Subtype']
     @current_term = ''
     @type_array = []
     @validation_page = Nokogiri::HTML(URI.parse('https://gatherer.wizards.com/Pages/Advanced.aspx').open)
@@ -44,22 +44,20 @@ class Search
 
   def build_link(term, inclusion, current_term)
     symbol = inclusion == 'E' ? '!' : ''
-    have = inclusion == 'E' ? 'does not have' : 'have'
-    if current_term == 'Type'
-      @type_link += "+#{symbol}[\"#{term}\"]"
-    else
+    have = inclusion == 'E' ? 'do not have' : 'have'
+    if current_term == 'Subtype'
       @subtype_link += "+#{symbol}[\"#{term}\"]"
+    else
+      @type_link += "+#{symbol}[\"#{term}\"]"
     end
     @chosen_terms += "#{have} the #{current_term} \"#{term}\", "
     @chosen_terms
   end
 
   def web_scrape
-    print 'Compiling'
     loop do
       full_link = "#{@base_link}page=#{@page}#{@options_link}#{@type_link}#{@subtype_link}"
       retrieved_page = Nokogiri::HTML(URI.parse(full_link).open)
-      print '.'
       retrieved_page.xpath('//td//a').each do |content|
         @name_array << content.content unless content.content == ''
       end

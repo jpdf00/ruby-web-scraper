@@ -43,11 +43,11 @@ describe Validation do
     it 'Returns empty string if the method is not called' do
       expect(validation.current_term.empty?).to eql(true)
     end
-    it 'Returns Type on first call' do
+    it 'Returns "Type or Supertype" on first call' do
       validation.change_term
-      expect(validation.current_term).to eql('Type')
+      expect(validation.current_term).to eql('Type or Supertype')
     end
-    it 'Returns Subtype on second call' do
+    it 'Returns "Subtype" on second call' do
       validation.change_term
       expect(validation.current_term).to eql('Subtype')
     end
@@ -97,7 +97,7 @@ describe Search do
       expect(search.build_link(TYPE_1, INCLUSION, TERM_1)).to eql(short_link)
     end
     it 'Returns the correct search terms for Types exclusive' do
-      short_link += "does not have the #{TERM_1} \"#{TYPE_2}\", "
+      short_link += "do not have the #{TERM_1} \"#{TYPE_2}\", "
       expect(search.build_link(TYPE_2, EXCLUSION, TERM_1)).to eql(short_link)
     end
     it 'Returns the correct search terms for Subtypes' do
