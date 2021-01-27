@@ -1,11 +1,11 @@
 #! /usr/bin/env ruby
 require_relative '../lib/validation'
-require_relative '../lib/search'
+require_relative '../lib/link'
 require_relative '../lib/result'
-require_relative '../lib/input'
 
 validation = Validation.new
-search = Search.new
+link = Link.new
+result = Result.new
 INVALID = 'ausydgfku'.freeze
 TYPE_1 = 'Creature'.freeze
 TYPE_2 = 'Legendary'.freeze
@@ -93,28 +93,32 @@ describe Validation do
   end
 end
 
-describe Search do
+describe Link do
   describe '#build_link' do
     it 'Returns the correct search terms for Types inclusive' do
       short_link += "have the #{TERM_1} \"#{TYPE_1}\", "
-      expect(search.build_link(TYPE_1, INCLUSION, TERM_1)).to eql(short_link)
+      expect(link.build_link(TYPE_1, INCLUSION, TERM_1)).to eql(short_link)
     end
     it 'Returns the correct search terms for Types exclusive' do
       short_link += "do not have the #{TERM_1} \"#{TYPE_2}\", "
-      expect(search.build_link(TYPE_2, EXCLUSION, TERM_1)).to eql(short_link)
+      expect(link.build_link(TYPE_2, EXCLUSION, TERM_1)).to eql(short_link)
     end
     it 'Returns the correct search terms for Subtypes' do
       short_link += "have the #{TERM_2} \"#{SUBTYPE}\", "
-      expect(search.build_link(SUBTYPE, INCLUSION, TERM_2)).to eql(short_link)
+      expect(link.build_link(SUBTYPE, INCLUSION, TERM_2)).to eql(short_link)
     end
   end
+end
 
+describe Result do
   describe '#web_scrape' do
     it 'Returns the correct search results' do
-      expect(search.web_scrape.length).to eql(151)
+      result.web_scrape(link.base_link, link.options_link, link.type_link, link.subtype_link)
+      expect(result.name_array.length).to eql(151)
     end
     it 'Does not returns the incorrect search results' do
-      expect(search.web_scrape.length).not_to eql(200)
+      result.web_scrape(link.base_link, link.options_link, link.type_link, link.subtype_link)
+      expect(result.name_array.length).not_to eql(200)
     end
   end
 end
